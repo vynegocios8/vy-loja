@@ -26,7 +26,6 @@
     </style>
 </head>
 <body>
-    <script type="module">
     <!-- Navbar -->
     <nav class="glass-nav sticky top-0 z-50 px-4 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -39,7 +38,6 @@
             <button class="btn btn-ghost btn-circle">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </button>
-
         </div>
     </nav>
 
@@ -77,14 +75,32 @@
         </div>
     </footer>
 
-    <script>
+    <!-- 🔹 Script principal -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+          apiKey: "SUA_API_KEY",
+          authDomain: "vy-loja.firebaseapp.com",
+          projectId: "vy-loja",
+          storageBucket: "vy-loja.appspot.com",
+          messagingSenderId: "1440651873617",
+          appId: "1:140651873617:web:01d1dcb7a94c919c197f70"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         const productsContainer = document.getElementById('products-container');
         const emptyState = document.getElementById('empty-state');
 
         async function loadProducts() {
           const querySnapshot = await getDocs(collection(db, "products"));
           const products = querySnapshot.docs.map(doc => doc.data());
-          renderProducts(products); // chama a função existente para mostrar os produtos
+          renderProducts(products);
         }
 
         function renderProducts(products) {
@@ -112,7 +128,6 @@
                            class="btn btn-primary btn-lg rounded-2xl normal-case text-lg font-bold w-full shadow-lg shadow-blue-200">
                             ${product.btnText || 'Comprar agora'}
                         </a>
-
                     </div>
                 </div>
             `).join('');
@@ -120,26 +135,6 @@
 
         // Carrega inicial
         loadProducts();
-        // Importa os módulos do Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        // Configuração do seu projeto Firebase
-        const firebaseConfig = {
-          apiKey: "SUA_API_KEY",
-          authDomain: "vy-loja.firebaseapp.com",
-          projectId: "vy-loja",
-          storageBucket: "vy-loja.appspot.com",
-          messagingSenderId: "1440651873617",
-          appId: "1:140651873617:web:01d1dcb7a94c919c197f70"
-         };
-
-         // Inicializa o Firebase
-         const app = initializeApp(firebaseConfig);
-         const db = getFirestore(app);
-
-        
-    </script>
     </script>
 </body>
 </html>
