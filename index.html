@@ -77,64 +77,62 @@
 
     <!-- 🔹 Script principal -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Configuração do Firebase
-        const firebaseConfig = {
-          apiKey: "SUA_API_KEY",
-          authDomain: "vy-loja.firebaseapp.com",
-          projectId: "vy-loja",
-          storageBucket: "vy-loja.appspot.com",
-          messagingSenderId: "1440651873617",
-          appId: "1:140651873617:web:01d1dcb7a94c919c197f70"
-        };
+      const firebaseConfig = {
+        apiKey: "COLOQUE_SUA_API_KEY_AQUI",
+        authDomain: "vy-loja.firebaseapp.com",
+        projectId: "vy-loja",
+        storageBucket: "vy-loja.appspot.com",
+        messagingSenderId: "1440651873617",
+        appId: "1:140651873617:web:01d1dcb7a94c919c197f70"
+      };
 
-        // Inicializa Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
 
-        const productsContainer = document.getElementById('products-container');
-        const emptyState = document.getElementById('empty-state');
+      const productsContainer = document.getElementById('products-container');
+      const emptyState = document.getElementById('empty-state');
 
-        async function loadProducts() {
-          const querySnapshot = await getDocs(collection(db, "products"));
-          const products = querySnapshot.docs.map(doc => doc.data());
-          renderProducts(products);
-        }
+      async function loadProducts() {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        const products = querySnapshot.docs.map(doc => doc.data());
+        renderProducts(products);
+      }
 
-        function renderProducts(products) {
-           if (products.length === 0) {
-                productsContainer.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                return;
-            }
+      function renderProducts(products) {
+        if (products.length === 0) {
+          productsContainer.innerHTML = '';
+          emptyState.classList.remove('hidden');
+          return;
+         }
 
-            emptyState.classList.add('hidden');
-            productsContainer.innerHTML = products.map(product => `
-                <div class="product-card bg-white rounded-[2rem] overflow-hidden border border-slate-100 flex flex-col h-full">
-                    <figure class="relative h-72 overflow-hidden">
-                        <img src="${product.image || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=800'}" 
-                             alt="${product.title}" 
-                             class="w-full h-full object-cover">
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-1 rounded-full font-bold text-primary shadow-sm">
-                            R$ ${parseFloat(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                        </div>
-                    </figure>
-                    <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-bold text-slate-800 mb-3">${product.title}</h3>
-                        <p class="text-slate-500 leading-relaxed mb-6 flex-grow">${product.description}</p>
-                        <a href="${product.checkoutLink}" target="_blank" 
-                           class="btn btn-primary btn-lg rounded-2xl normal-case text-lg font-bold w-full shadow-lg shadow-blue-200">
-                            ${product.btnText || 'Comprar agora'}
-                        </a>
-                    </div>
+        emptyState.classList.add('hidden');
+        productsContainer.innerHTML = products.map(product => `
+          <div class="product-card bg-white rounded-[2rem] overflow-hidden border border-slate-100 flex flex-col h-full">
+             <figure class="relative h-72 overflow-hidden">
+                <img src="${product.image || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=800'}" 
+                     alt="${product.title}" 
+                     class="w-full h-full object-cover">
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-1 rounded-full font-bold text-primary shadow-sm">
+                 R$ ${parseFloat(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                 </div>
-            `).join('');
+              </figure>
+               <div class="p-8 flex flex-col flex-grow">
+                 <h3 class="text-2xl font-bold text-slate-800 mb-3">${product.title}</h3>
+                 <p class="text-slate-500 leading-relaxed mb-6 flex-grow">${product.description}</p>
+                 <a href="${product.checkoutLink}" target="_blank" 
+                    class="btn btn-primary btn-lg rounded-2xl normal-case text-lg font-bold w-full shadow-lg shadow-blue-200">
+                   ${product.btnText || 'Comprar agora'}
+                 </a>
+               </div>
+             </div>
+           `).join('');
         }
 
         // Carrega inicial
         loadProducts();
-    </script>
+       </script>
 </body>
 </html>
