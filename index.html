@@ -27,6 +27,23 @@
 </head>
 <body>
     <script type="module">
+        // Importa os módulos do Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Configuração do seu projeto Firebase
+        const firebaseConfig = {
+          apiKey: "SUA_API_KEY",
+          authDomain: "vy-loja.firebaseapp.com",
+          projectId: "vy-loja",
+          storageBucket: "vy-loja.appspot.com",
+          messagingSenderId: "1440651873617",
+          appId: "1:140651873617:web:01d1dcb7a94c919c197f70"
+         };
+
+         // Inicializa o Firebase
+         const app = initializeApp(firebaseConfig);
+         const db = getFirestore(app);
     <!-- Navbar -->
     <nav class="glass-nav sticky top-0 z-50 px-4 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
