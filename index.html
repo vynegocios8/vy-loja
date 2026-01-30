@@ -81,11 +81,14 @@
         const productsContainer = document.getElementById('products-container');
         const emptyState = document.getElementById('empty-state');
 
-        function renderProducts() {
-            const data = localStorage.getItem('vy_store_data');
-            const products = data ? JSON.parse(data) : [];
+        async function loadProducts() {
+          const querySnapshot = await getDocs(collection(db, "products"));
+          const products = querySnapshot.docs.map(doc => doc.data());
+          renderProducts(products); // chama a função existente para mostrar os produtos
+        }
 
-            if (products.length === 0) {
+        function renderProducts(products) {
+           if (products.length === 0) {
                 productsContainer.innerHTML = '';
                 emptyState.classList.remove('hidden');
                 return;
@@ -116,14 +119,9 @@
         }
 
         // Carrega inicial
-        renderProducts();
+        loadProducts();
 
-        // Sincronização em tempo real (atualiza quando o Admin muda os dados em outra aba)
-        window.addEventListener('storage', (event) => {
-            if (event.key === 'vy_store_data') {
-                renderProducts();
-            }
-        });
+        
     </script>
     </script>
 </body>
